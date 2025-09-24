@@ -76,7 +76,7 @@ class bkashController {
                 //    console.log("hi", Products_IDS);
 
                 const response =  await axios.patch(`${SERVER_URL}/api/vending/68d2580ac503c5f97e895c53`,
-                        { onKey: Products_IDS }, // Request body
+                        { onKey: Products_IDS, uiToken: false }, // Request body
                         {
                             headers: {
                             'Content-Type': 'application/json'

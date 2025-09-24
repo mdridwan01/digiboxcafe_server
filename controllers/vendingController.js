@@ -36,24 +36,29 @@ exports.getVendingById = async (req, res) => {
 // Update
 exports.updateVending = async (req, res) => {
    const { id } = req.params;
-  const { onKey } = req.body;
-  console.log("Received onKey:", req.body);
+const { onKey, uiToken } = req.body;
+console.log("Received onKey:", onKey);  // Log the onKey value
 
-  try {
-    const vending = await Vending.findById(id);
-    if (!vending) return res.status(404).json({ error: 'Not found' });
+try {
+  const vending = await Vending.findById(id);
+  if (!vending) return res.status(404).json({ error: 'Not found' });
 
-    // Loop through "1" to "5" and set values
-    for (let i = 1; i <= 5; i++) {
-      const key = i.toString();
-      vending[key] = key === onKey ? 'on' : 'off';
-    }
-
-    await vending.save();
-    res.json(vending);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  // Loop through "1" to "5" and set values based on onKey
+  for (let i = 1; i <= 5; i++) {
+    const key = i.toString();
+    vending[key] = key === onKey ? 'on' : 'off';
   }
+
+  // Handle uiToken separately if needed
+  if (uiToken !== undefined) {
+    vending.uiToken = uiToken;  // Update uiToken as well
+  }
+
+  await vending.save();
+  res.json(vending);
+} catch (err) {
+  res.status(500).json({ error: err.message });
+}
     }
 
 // Delete
