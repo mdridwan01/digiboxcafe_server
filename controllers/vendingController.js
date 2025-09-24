@@ -37,6 +37,7 @@ exports.getVendingById = async (req, res) => {
 exports.updateVending = async (req, res) => {
    const { id } = req.params;
   const { onKey } = req.body;
+  console.log("Received onKey:", req.body);
 
   try {
     const vending = await Vending.findById(id);
