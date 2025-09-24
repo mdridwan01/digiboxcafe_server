@@ -6,6 +6,7 @@ const Payment = require('../models/Payments');
 const dotenv = require('dotenv');
 dotenv.config();
 const APPLICATION_URL = process.env.APPLICATION_URL;
+const SERVER_URL = process.env.SERVER_URL;
 
 class bkashController {
     async createPayment(req, res) {
@@ -17,7 +18,7 @@ class bkashController {
             const {data} = await axios.post("https://tokenized.pay.bka.sh/v1.2.0-beta/tokenized/checkout/create", {
                 mode: "0011",
                 payerReference: "Digibox",
-                callbackURL: "http://localhost:5000/api/bkash/payment/callback",
+                callbackURL: `${SERVER_URL}/api/bkash/payment/callback`,
                 amount: amount,
                 currency: "BDT",
                 intent: 'sale',
@@ -74,7 +75,7 @@ class bkashController {
                     const Products_IDS = String(ProductID); // ✅ Use String(), not toString()
                 //    console.log("hi", Products_IDS);
 
-                const response =  await axios.patch(`http://localhost:5000/api/vending/68d2580ac503c5f97e895c53`,
+                const response =  await axios.patch(`${SERVER_URL}/api/vending/68d2580ac503c5f97e895c53`,
                         { onKey: Products_IDS }, // Request body
                         {
                             headers: {
